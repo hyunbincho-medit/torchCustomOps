@@ -245,6 +245,8 @@ Bucket-based farthest point sampling (QuickFPS)은 다음 논문에서 제안되
 
 KNN 구현은 PyTorch3D의 KNN 알고리즘을 참고하였습니다.
 
+- [Pytorch3D](https://github.com/facebookresearch/pytorch3d)
+
 ---
 
 ## Author
