@@ -88,10 +88,10 @@ neighbors = knn_gather(p2, idx)  # [batch_size, N1, K, D]
 
 print(f"Distances shape: {dists.shape}")    # [2, 100, 5]
 print(f"Indices shape: {idx.shape}")        # [2, 100, 5]
-print(f"Neighbors shape: {neighbors.shape}")# [2, 100, 5, 3]### 3. TorchScript Export
+print(f"Neighbors shape: {neighbors.shape}")# [2, 100, 5, 3]
 ```
 
-
+### 3. TorchScript Export
 #### FPS 모델 Export
 ```python
 import torch
@@ -228,7 +228,7 @@ python knn_tutorial.py
 ### FPS (Farthest Point Sampling)
 
 Bucket-based farthest point sampling (QuickFPS)은 다음 논문에서 제안되었습니다:
-btex
+```btex
 @article{han2023quickfps,
   title={QuickFPS: Architecture and Algorithm Co-Design for Farthest Point Sampling in Large-Scale Point Clouds},
   author={Han, Meng and Wang, Liang and Xiao, Limin and Zhang, Hao and Zhang, Chenhao and Xu, Xiangrong and Zhu, Jianfeng},
@@ -236,6 +236,7 @@ btex
   year={2023},
   publisher={IEEE}
 }
+```
 
 구현은 다음 저장소를 기반으로 합니다:
 - [fpsample](https://github.com/leonardodalinky/pytorch_fpsample)
