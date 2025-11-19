@@ -42,8 +42,8 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborIdxCpu(
     const at::Tensor& p2,
     const at::Tensor& lengths1,
     const at::Tensor& lengths2,
-    const int norm,
-    const int K);
+    const int64_t norm,
+    const int64_t K);
 
 // // CUDA implementation
 // std::tuple<at::Tensor, at::Tensor> KNearestNeighborIdxCuda(
@@ -83,9 +83,9 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborIdx(
     const at::Tensor& p2,
     const at::Tensor& lengths1,
     const at::Tensor& lengths2,
-    const int norm,
-    const int K,
-    const int version) {
+    const int64_t norm,
+    const int64_t K,
+    const int64_t version) {
   if (p1.is_cuda() || p2.is_cuda()) {
     AT_ERROR("CUDA is not supported. Please use CPU tensors.");
   }
@@ -123,7 +123,7 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborBackwardCpu(
     const at::Tensor& lengths1,
     const at::Tensor& lengths2,
     const at::Tensor& idxs,
-    const int norm,
+    const int64_t norm,
     const at::Tensor& grad_dists);
 
 // CUDA implementation
@@ -165,7 +165,7 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborBackward(
     const at::Tensor& lengths1,
     const at::Tensor& lengths2,
     const at::Tensor& idxs,
-    const int norm,
+    const int64_t norm,
     const at::Tensor& grad_dists) {
   if (p1.is_cuda() || p2.is_cuda()) {
     AT_ERROR("CUDA is not supported. Please use CPU tensors.");
@@ -184,4 +184,4 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborBackward(
 //
 // Returns:
 //    Whether the indicated KNN version can be used.
-bool KnnCheckVersion(int version, const int64_t D, const int64_t K);
+bool KnnCheckVersion(int64_t version, const int64_t D, const int64_t K);

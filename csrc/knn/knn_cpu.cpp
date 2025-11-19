@@ -15,8 +15,8 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborIdxCpu(
     const at::Tensor& p2,
     const at::Tensor& lengths1,
     const at::Tensor& lengths2,
-    const int norm,
-    const int K) {
+    const int64_t norm,
+    const int64_t K) {
   const int N = p1.size(0);
   const int P1 = p1.size(1);
   const int D = p1.size(2);
@@ -78,7 +78,7 @@ std::tuple<at::Tensor, at::Tensor> KNearestNeighborBackwardCpu(
     const at::Tensor& lengths1,
     const at::Tensor& lengths2,
     const at::Tensor& idxs,
-    const int norm,
+    const int64_t norm,
     const at::Tensor& grad_dists) {
   const int N = p1.size(0);
   const int P1 = p1.size(1);
