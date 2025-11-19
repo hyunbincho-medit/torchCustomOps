@@ -152,8 +152,8 @@ dists, idx, neighbors = loaded_model(p1, p2)
 - `fps_tutorial.py`: FPS 사용법 및 TorchScript export 예제
 - `knn_tutorial.py`: KNN 사용법, 검증 함수, TorchScript export 예제
 
-# 튜토리얼 실행
 ```bash
+# 튜토리얼 실행
 python fps_tutorial.py
 python knn_tutorial.py
 ```
@@ -163,7 +163,7 @@ python knn_tutorial.py
 
 ### torch_fpsample.sample()
 
-sample(x: torch.Tensor, num_samples: int, h: int = -1, start_idx: int = -1) 
+> sample(x: torch.Tensor, num_samples: int, h: int = -1, start_idx: int = -1) 
     -> Tuple[torch.Tensor, torch.Tensor]**Parameters:**
 - `x`: 입력 포인트 클라우드 `(batch_size, num_points, dimensions)`
 - `num_samples`: 샘플링할 포인트 개수
@@ -176,7 +176,7 @@ sample(x: torch.Tensor, num_samples: int, h: int = -1, start_idx: int = -1)
 
 ### knn_points()
 
-knn_points(p1: torch.Tensor, p2: torch.Tensor, K: int = 1, 
+> knn_points(p1: torch.Tensor, p2: torch.Tensor, K: int = 1, 
            return_nn: bool = False, norm: int = 2) -> _KNN**Parameters:**
 - `p1`: Query 포인트 `(N, P1, D)`
 - `p2`: Reference 포인트 `(N, P2, D)`
@@ -192,7 +192,7 @@ knn_points(p1: torch.Tensor, p2: torch.Tensor, K: int = 1,
 
 ### knn_gather()
 
-knn_gather(x: torch.Tensor, idx: torch.Tensor) -> torch.Tensor**Parameters:**
+> knn_gather(x: torch.Tensor, idx: torch.Tensor) -> torch.Tensor**Parameters:**
 - `x`: 입력 텐서 `(N, M, U)`
 - `idx`: 인덱스 텐서 `(N, L, K)`
 
@@ -229,7 +229,9 @@ btex
   journal={IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems},
   year={2023},
   publisher={IEEE}
-}구현은 다음 저장소를 기반으로 합니다:
+}
+
+구현은 다음 저장소를 기반으로 합니다:
 - [fpsample](https://github.com/leonardodalinky/pytorch_fpsample)
 
 ### KNN (K-Nearest Neighbors)
