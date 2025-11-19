@@ -17,6 +17,13 @@ sources = [
     "csrc/cpu/fpsample_cpu.cpp",
     "csrc/cpu/bucket_fps/wrapper.cpp",
 ]
+
+# KNN sources
+knn_sources = [
+    "csrc/knn_torch3d.cpp",
+    "csrc/knn/knn_cpu.cpp",
+]
+
 extra_compile_args = {"cxx": ["-O3"]}
 extra_link_args = []
 
@@ -60,21 +67,29 @@ else:
             sources=sources,
             extra_compile_args=extra_compile_args,
             extra_link_args=extra_link_args,
+        ),
+
+        cpp_extension.CppExtension(
+            name="knn_torch3d._core",
+            include_dirs=["csrc"],
+            sources=knn_sources,
+            extra_compile_args=extra_compile_args,
+            extra_link_args=extra_link_args,
         )
     ]
 
 
 setup(
-    name="torch_fpsample",
+    name="torch_custom_ops",  # 이름 변경 (두 확장 모두 포함)
     version=__version__,
-    author="Leonard Lin",
-    author_email="leonard.keilin@gmail.com",
-    description="PyTorch implementation of fpsample.",
+    author="Hyunbin cho",
+    author_email="hyunbin.cho@medit.com",
+    description="PyTorch custom operations including fpsample and KNN.",
     ext_modules=ext_modules,
-    keywords=["pytorch", "farthest", "furthest", "sampling", "sample", "fps"],
+    keywords=["pytorch", "farthest", "furthest", "sampling", "sample", "fps", "knn", "nearest", "neighbors"],
     packages=find_packages(),
     package_data={"": ["*.pyi"]},
     cmdclass={"build_ext": cpp_extension.BuildExtension},
     python_requires=">=3.8",
-    install_requires=["torch>=2.0"],
+    install_requires=["torch>=2.0"]
 )
