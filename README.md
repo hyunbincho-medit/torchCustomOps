@@ -1,6 +1,6 @@
 # PyTorch Custom Operations
 
-PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)**와 **K-Nearest Neighbors (KNN)** 구현.
+PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)** 와 **K-Nearest Neighbors (KNN)** 구현.
 
 이 프로젝트는 다음을 포함합니다:
 - `torch_fpsample`: 효율적인 최원점 샘플링 (Farthest Point Sampling) 구현
@@ -9,7 +9,7 @@ PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)**와 **K-Neares
 **해당 연산은 CPU 전용으로 구현되어 있습니다.**
 
 > [!NOTE]
-> PyTorch의 네이티브 멀티스레드 구현을 활용하여 효율적인 성능을 제공합니다.
+> PyTorch의 **C++ 내부 병렬 처리(Parallel Backend)**를 활용하여 효율적인 성능을 제공합니다.
 
 ---
 
@@ -17,30 +17,31 @@ PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)**와 **K-Neares
 
 ### 1. 가상환경 생성 및 활성화
 
-# Python 가상환경 생성
+#### Python 가상환경 생성
+```
 conda create -n ops python=3.10
-
-# Windows에서 가상환경 활성화
 conda activate ops
 
 # CUDA 12.8 버전 
 pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu128
+```
 
 ---
 
 ## 설치
 
+```
 ### GitHub에서 직접 설치
 pip install git+https://github.com/yourusername/torchCustomOps### 로컬 빌드
 
 # 프로젝트 디렉토리에서
 pip install -e .
-
+```
 
 ## 사용법
 
 ### 1. Farthest Point Sampling (FPS)
-
+```
 import torch
 import torch_fpsample
 
@@ -57,8 +58,11 @@ sampled_points, indices = torch_fpsample.sample(x, 1024, h=5)
 sampled_points, indices = torch_fpsample.sample(x, 1024, start_idx=0)
 
 print(f"Sampled points shape: {sampled_points.shape}")  # [64, 1024, 3]
-print(f"Indices shape: {indices.shape}")                # [64, 1024]### 2. K-Nearest Neighbors (KNN)
+print(f"Indices shape: {indices.shape}")                # [64, 1024]
+```
 
+### 2. K-Nearest Neighbors (KNN)
+```
 import torch
 from knn_torch3d import knn_points, knn_gather
 
@@ -83,8 +87,11 @@ neighbors = knn_gather(p2, idx)  # [batch_size, N1, K, D]
 print(f"Distances shape: {dists.shape}")    # [2, 100, 5]
 print(f"Indices shape: {idx.shape}")        # [2, 100, 5]
 print(f"Neighbors shape: {neighbors.shape}")# [2, 100, 5, 3]### 3. TorchScript Export
+```
+
 
 #### FPS 모델 Export
+```
 import torch
 import torch_fpsample
 
@@ -105,8 +112,10 @@ scripted_model.save("fps_model.pt")
 # 로드 및 사용
 loaded_model = torch.jit.load("fps_model.pt")
 output = loaded_model(torch.rand(64, 2048, 3))
+```
 
 #### KNN 모델 Export
+```
 import torch
 from knn_torch3d import knn_points, knn_gather
 
@@ -129,7 +138,11 @@ scripted_model.save("knn_model.pt")
 loaded_model = torch.jit.load("knn_model.pt")
 p1 = torch.randn(2, 100, 3)
 p2 = torch.randn(2, 200, 3)
-dists, idx, neighbors = loaded_model(p1, p2)---
+dists, idx, neighbors = loaded_model(p1, p2)
+```
+
+---
+
 
 ## 튜토리얼
 
@@ -140,7 +153,9 @@ dists, idx, neighbors = loaded_model(p1, p2)---
 
 # 튜토리얼 실행
 python fps_tutorial.py
-python knn_tutorial.py---
+python knn_tutorial.py
+
+---
 
 ## API 문서
 
