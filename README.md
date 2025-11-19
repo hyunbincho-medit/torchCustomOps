@@ -164,7 +164,9 @@ python knn_tutorial.py
 ### torch_fpsample.sample()
 
 > **sample** (x: torch.Tensor, num_samples: int, h: int = -1, start_idx: int = -1) 
-    -> Tuple[torch.Tensor, torch.Tensor]**Parameters:**
+    -> Tuple[torch.Tensor, torch.Tensor]
+    
+  **Parameters:**
 - `x`: 입력 포인트 클라우드 `(batch_size, num_points, dimensions)`
 - `num_samples`: 샘플링할 포인트 개수
 - `h`: 트리 높이 (선택적, 기본값: -1은 자동)
@@ -177,7 +179,9 @@ python knn_tutorial.py
 ### knn_torch3d.knn_points()
 
 > **knn_points** (p1: torch.Tensor, p2: torch.Tensor, K: int = 1, 
-           return_nn: bool = False, norm: int = 2) -> _KNN**Parameters:**
+           return_nn: bool = False, norm: int = 2) -> _KNN
+
+**Parameters:**
 - `p1`: Query 포인트 `(N, P1, D)`
 - `p2`: Reference 포인트 `(N, P2, D)`
 - `K`: 찾을 최근접 이웃 개수
@@ -192,7 +196,9 @@ python knn_tutorial.py
 
 ### knn_torch3d.knn_gather()
 
-> **knn_gather** (x: torch.Tensor, idx: torch.Tensor) -> torch.Tensor**Parameters:**
+> **knn_gather** (x: torch.Tensor, idx: torch.Tensor) -> torch.Tensor
+
+**Parameters:**
 - `x`: 입력 텐서 `(N, M, U)`
 - `idx`: 인덱스 텐서 `(N, L, K)`
 
