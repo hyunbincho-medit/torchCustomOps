@@ -9,7 +9,7 @@ PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)** 와 **K-Neare
 **해당 연산은 CPU 전용으로 구현되어 있습니다.**
 
 > [!NOTE]
-> PyTorch의 **C++ 내부 병렬 처리(Parallel Backend)**를 활용하여 효율적인 성능을 제공합니다.
+> PyTorch의 **C++ 내부 병렬 처리(Parallel Backend)** 를 활용하여 효율적인 성능을 제공합니다.
 
 ---
 
@@ -163,7 +163,7 @@ python knn_tutorial.py
 
 ### torch_fpsample.sample()
 
-> sample(x: torch.Tensor, num_samples: int, h: int = -1, start_idx: int = -1) 
+> **sample** (x: torch.Tensor, num_samples: int, h: int = -1, start_idx: int = -1) 
     -> Tuple[torch.Tensor, torch.Tensor]**Parameters:**
 - `x`: 입력 포인트 클라우드 `(batch_size, num_points, dimensions)`
 - `num_samples`: 샘플링할 포인트 개수
@@ -174,9 +174,9 @@ python knn_tutorial.py
 - `sampled_points`: 샘플링된 포인트 `(batch_size, num_samples, dimensions)`
 - `indices`: 선택된 포인트의 인덱스 `(batch_size, num_samples)`
 
-### knn_points()
+### knn_torch3d.knn_points()
 
-> knn_points(p1: torch.Tensor, p2: torch.Tensor, K: int = 1, 
+> **knn_points** (p1: torch.Tensor, p2: torch.Tensor, K: int = 1, 
            return_nn: bool = False, norm: int = 2) -> _KNN**Parameters:**
 - `p1`: Query 포인트 `(N, P1, D)`
 - `p2`: Reference 포인트 `(N, P2, D)`
@@ -190,9 +190,9 @@ python knn_tutorial.py
   - `idx`: 인덱스 `(N, P1, K)`
   - `knn`: 이웃 좌표 `(N, P1, K, D)` (return_nn=True일 때)
 
-### knn_gather()
+### knn_torch3d.knn_gather()
 
-> knn_gather(x: torch.Tensor, idx: torch.Tensor) -> torch.Tensor**Parameters:**
+> **knn_gather** (x: torch.Tensor, idx: torch.Tensor) -> torch.Tensor**Parameters:**
 - `x`: 입력 텐서 `(N, M, U)`
 - `idx`: 인덱스 텐서 `(N, L, K)`
 
