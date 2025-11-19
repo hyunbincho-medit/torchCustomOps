@@ -1,11 +1,7 @@
 """KNN operations with torch custom ops"""
-
-from collections import namedtuple
-from typing import Union
+from typing import Union, Optional
 
 import torch
-from torch.autograd import Function
-from torch.autograd.function import once_differentiable
 
 # C++ 확장 로드
 try:
@@ -15,69 +11,12 @@ try:
 except ImportError as e:
     raise ImportError(f"Cannot load knn_torch3d extension: {e}")
 
-_KNN = namedtuple("KNN", "dists idx knn")
+from typing import NamedTuple
 
-
-class _knn_points(Function):
-    """Torch autograd Function wrapper for KNN C++/CUDA implementations."""
-
-    @staticmethod
-    def forward(
-        ctx,
-        p1,
-        p2,
-        lengths1,
-        lengths2,
-        K,
-        version,
-        norm: int = 2,
-        return_sorted: bool = True,
-    ):
-        """K-Nearest neighbors on point clouds."""
-        if not ((norm == 1) or (norm == 2)):
-            raise ValueError("Support for 1 or 2 norm.")
-
-        # torch.ops를 통해 custom op 호출
-        idx, dists = torch.ops.knn_torch3d.knn_points_idx(
-            p1, p2, lengths1, lengths2, norm, K, version
-        )
-
-        # sort KNN in ascending order if K > 1
-        if K > 1 and return_sorted:
-            if lengths2.min() < K:
-                P1 = p1.shape[1]
-                mask = lengths2[:, None] <= torch.arange(K, device=dists.device)[None]
-                mask = mask[:, None].expand(-1, P1, -1)
-                dists[mask] = float("inf")
-                dists, sort_idx = dists.sort(dim=2)
-                dists[mask] = 0
-            else:
-                dists, sort_idx = dists.sort(dim=2)
-            idx = idx.gather(2, sort_idx)
-
-        ctx.save_for_backward(p1, p2, lengths1, lengths2, idx)
-        ctx.mark_non_differentiable(idx)
-        ctx.norm = norm
-        return dists, idx
-
-    @staticmethod
-    @once_differentiable
-    def backward(ctx, grad_dists, grad_idx):
-        p1, p2, lengths1, lengths2, idx = ctx.saved_tensors
-        norm = ctx.norm
-        
-        if not (grad_dists.dtype == torch.float32):
-            grad_dists = grad_dists.float()
-        if not (p1.dtype == torch.float32):
-            p1 = p1.float()
-        if not (p2.dtype == torch.float32):
-            p2 = p2.float()
-            
-        grad_p1, grad_p2 = torch.ops.knn_torch3d.knn_points_backward(
-            p1, p2, lengths1, lengths2, idx, norm, grad_dists
-        )
-        return grad_p1, grad_p2, None, None, None, None, None, None
-
+class _KNN(NamedTuple):
+    dists: torch.Tensor
+    idx: torch.Tensor
+    knn: Optional[torch.Tensor]
 
 def knn_points(
     p1: torch.Tensor,
@@ -123,16 +62,32 @@ def knn_points(
     if lengths2 is None:
         lengths2 = torch.full((p1.shape[0],), P2, dtype=torch.int64, device=p1.device)
 
-    p1_dists, p1_idx = _knn_points.apply(
-        p1, p2, lengths1, lengths2, K, version, norm, return_sorted
+    # TorchScript 호환: autograd.Function 대신 직접 C++ op 호출
+    if not ((norm == 1) or (norm == 2)):
+        raise ValueError("Support for 1 or 2 norm.")
+    
+    idx, dists = torch.ops.knn_torch3d.knn_points_idx(
+        p1, p2, lengths1, lengths2, norm, K, version
     )
 
-    p2_nn = None
+    # sort KNN in ascending order if K > 1
+    if K > 1 and return_sorted:
+        if lengths2.min() < K:
+            P1_val = p1.shape[1]
+            mask = lengths2[:, None] <= torch.arange(K, device=dists.device)[None]
+            mask = mask[:, None].expand(-1, P1_val, -1)
+            dists[mask] = float("inf")
+            dists, sort_idx = dists.sort(dim=2)
+            dists[mask] = 0.0
+        else:
+            dists, sort_idx = dists.sort(dim=2)
+        idx = idx.gather(2, sort_idx)
+
+    p2_nn: Optional[torch.Tensor] = None
     if return_nn:
-        p2_nn = knn_gather(p2, p1_idx, lengths2)
+        p2_nn = knn_gather(p2, idx, lengths2)
 
-    return _KNN(dists=p1_dists, idx=p1_idx, knn=p2_nn if return_nn else None)
-
+    return _KNN(dists=dists, idx=idx, knn=p2_nn)
 
 def knn_gather(
     x: torch.Tensor, idx: torch.Tensor, lengths: Union[torch.Tensor, None] = None
