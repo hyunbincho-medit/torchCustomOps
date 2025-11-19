@@ -1,0 +1,33 @@
+{
+    "python.defaultInterpreterPath": "/home/hbcho/miniconda3/envs/fps/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "off",
+    "files.associations": {
+        "*.py": "python"
+    },
+    "debug.console.fontSize": 12,
+    "debug.console.lineHeight": 18,
+    "debug.internalConsoleOptions": "neverOpen",
+    "python.analysis.exclude": [
+        "**/node_modules",
+        "**/__pycache__",
+        "**/build",
+        ".git",
+        "myenv/**",
+        "result*",
+        ".ply",
+        ".obj",
+        "server",
+        ".npy"
+    ],
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+} 
