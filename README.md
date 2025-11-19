@@ -16,9 +16,10 @@ PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)** 와 **K-Neare
 ## 환경 설정
 
 ### 1. 가상환경 생성 및 활성화
+`scanvision`에 구현된 `libtorch` 및 `CUDA` version에 맞춰 환경을 설정합니다. 
 
 #### Python 가상환경 생성
-```
+```bash
 conda create -n ops python=3.10
 conda activate ops
 
@@ -30,10 +31,11 @@ pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https
 
 ## 설치
 
-```
+```bash
 ### GitHub에서 직접 설치
-pip install git+https://github.com/yourusername/torchCustomOps### 로컬 빌드
+pip install git+https://github.com/yourusername/torchCustomOps
 
+### 로컬 빌드
 # 프로젝트 디렉토리에서
 pip install -e .
 ```
@@ -41,7 +43,7 @@ pip install -e .
 ## 사용법
 
 ### 1. Farthest Point Sampling (FPS)
-```
+```python
 import torch
 import torch_fpsample
 
@@ -62,7 +64,7 @@ print(f"Indices shape: {indices.shape}")                # [64, 1024]
 ```
 
 ### 2. K-Nearest Neighbors (KNN)
-```
+```python
 import torch
 from knn_torch3d import knn_points, knn_gather
 
@@ -91,7 +93,7 @@ print(f"Neighbors shape: {neighbors.shape}")# [2, 100, 5, 3]### 3. TorchScript E
 
 
 #### FPS 모델 Export
-```
+```python
 import torch
 import torch_fpsample
 
@@ -115,7 +117,7 @@ output = loaded_model(torch.rand(64, 2048, 3))
 ```
 
 #### KNN 모델 Export
-```
+```python
 import torch
 from knn_torch3d import knn_points, knn_gather
 
@@ -143,7 +145,6 @@ dists, idx, neighbors = loaded_model(p1, p2)
 
 ---
 
-
 ## 튜토리얼
 
 프로젝트에는 두 가지 튜토리얼 스크립트가 포함되어 있습니다:
@@ -152,9 +153,10 @@ dists, idx, neighbors = loaded_model(p1, p2)
 - `knn_tutorial.py`: KNN 사용법, 검증 함수, TorchScript export 예제
 
 # 튜토리얼 실행
+```bash
 python fps_tutorial.py
 python knn_tutorial.py
-
+```
 ---
 
 ## API 문서
@@ -228,9 +230,7 @@ btex
   year={2023},
   publisher={IEEE}
 }구현은 다음 저장소를 기반으로 합니다:
-- [fpsample](https://github.com/leonardodalinky/fpsample)
-- [CPU Implementation](https://github.com/hanm2019/bucket-based_farthest-point-sampling_CPU)
-- [GPU Implementation](https://github.com/hanm2019/bucket-based_farthest-point-sampling_GPU)
+- [fpsample](https://github.com/leonardodalinky/pytorch_fpsample)
 
 ### KNN (K-Nearest Neighbors)
 
