@@ -23,5 +23,19 @@
             "stopOnEntry": false
         },
 
+        {
+            "name": "Debug KNN tutorial",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/knn_tutorial.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        },
+
     ]
 }

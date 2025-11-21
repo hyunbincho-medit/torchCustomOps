@@ -17,6 +17,7 @@ PyTorch 커스텀 연산 모음: **Farthest Point Sampling (FPS)** 와 **K-Neare
 
 ### 1. 가상환경 생성 및 활성화
 `scanvision`에 구현된 `libtorch` 및 `CUDA` version에 맞춰 환경을 설정합니다. 
+참고: scanvision의 PyTorch는 2.8.0d 버전이지만, 현재 코드에서는 PyTorch ≥ 2.9.0 이상에서 정상 동작하는 것을 확인했습니다.
 
 #### Python 가상환경 생성
 ```bash
@@ -24,7 +25,7 @@ conda create -n ops python=3.10
 conda activate ops
 
 # CUDA 12.8 버전 
-pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu128
+pip install torch==2.9.0 torchvision==0.24.0 torchaudio==2.9.0 --index-url https://download.pytorch.org/whl/cu128
 ```
 
 ---
@@ -32,9 +33,6 @@ pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https
 ## 설치
 
 ```bash
-### GitHub에서 직접 설치
-pip install git+https://github.com/yourusername/torchCustomOps
-
 ### 로컬 빌드
 # 프로젝트 디렉토리에서
 pip install -e .

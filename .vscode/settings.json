@@ -1,5 +1,5 @@
 {
-    "python.defaultInterpreterPath": "/home/hbcho/miniconda3/envs/fps/bin/python",
+    "python.defaultInterpreterPath": "/home/hbcho/miniconda3/envs/ops/bin/python",
     "python.terminal.activateEnvironment": true,
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": false,
